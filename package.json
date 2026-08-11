@@ -1,0 +1,17 @@
+{
+  "name": "Mahjong-Discord-Activity",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "monorepo",
+    "react",
+    "tailwindcss",
+    "shadcn-ui"
+  ],
+  "author": "Larry Ling",
+  "license": "MIT",
+  "packageManager": "pnpm@10.12.1"
+}
