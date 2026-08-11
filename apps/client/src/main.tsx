@@ -3,8 +3,11 @@ import ReactDOM from "react-dom/client";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { routeTree } from "@/routeTree.gen";
 import useDiscord from "@/hooks/useDiscord";
+import { Client } from "@colyseus/sdk";
 import DiscordProvider from "@/contexts/DiscordProvider";
 import "./index.css";
+
+const colyseusClient = new Client("ws://localhost:3000");
 
 const router = createRouter({
   routeTree,
@@ -12,6 +15,7 @@ const router = createRouter({
   scrollRestoration: true,
   context: {
     discord: undefined!,
+    colyseusClient,
   },
 });
 

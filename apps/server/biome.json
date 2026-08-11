@@ -7,14 +7,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": [
-      "**",
-      "!dist",
-      "!node_modules",
-      "!vite.config.ts",
-      "!src/main.tsx",
-      "!**/routeTree.gen.ts"
-    ]
+    "includes": ["**", "!build", "!node_modules", "!ecosystem.config.cjs"]
   },
   "formatter": {
     "enabled": true,
@@ -37,11 +30,6 @@
   "json": {
     "formatter": {
       "trailingCommas": "none"
-    }
-  },
-  "css": {
-    "parser": {
-      "tailwindDirectives": true
     }
   },
   "linter": {
@@ -105,7 +93,7 @@
     },
     "domains": {
       "project": "recommended",
-      "react": "recommended"
+      "test": "recommended"
     }
   },
 
