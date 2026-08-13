@@ -6,8 +6,8 @@ import {
   monitor,
   playground,
 } from "colyseus";
-import { env } from "./env.js";
 
+import { env } from "./env.js";
 /**
  * Import your Room files
  */

@@ -1,10 +1,11 @@
-import { StrictMode } from "react";
-import ReactDOM from "react-dom/client";
-import { RouterProvider, createRouter } from "@tanstack/react-router";
-import { routeTree } from "@/routeTree.gen";
-import useDiscord from "@/hooks/useDiscord";
 import { Client } from "@colyseus/sdk";
+import { createRouter, RouterProvider } from "@tanstack/react-router";
+import { StrictMode } from "react";
+import ReactDom from "react-dom/client";
+
 import DiscordProvider from "@/contexts/DiscordProvider";
+import useDiscord from "@/hooks/useDiscord";
+import { routeTree } from "@/routeTree.gen";
 import "./index.css";
 
 const colyseusClient = new Client("ws://localhost:3000");
@@ -27,7 +28,7 @@ declare module "@tanstack/react-router" {
 
 const InnerApp = () => {
   const discord = useDiscord();
-  return <RouterProvider router={router} context={{ discord }} />;
+  return <RouterProvider context={{ discord }} router={router} />;
 };
 
 const App = () => {
@@ -41,10 +42,10 @@ const App = () => {
 const rootElement = document.getElementById("root")!;
 
 if (!rootElement.innerHTML) {
-  const root = ReactDOM.createRoot(rootElement);
+  const root = ReactDom.createRoot(rootElement);
   root.render(
     <StrictMode>
       <App />
-    </StrictMode>,
+    </StrictMode>
   );
 }

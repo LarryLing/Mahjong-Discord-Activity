@@ -1,107 +1,13 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.4.2/schema.json",
-  "vcs": {
-    "enabled": true,
-    "clientKind": "git",
-    "useIgnoreFile": true
-  },
+  "$schema": "https://biomejs.dev/schemas/2.5.7/schema.json",
+  "root": false,
+  "extends": "//",
   "files": {
-    "ignoreUnknown": true,
-    "includes": ["**", "!build", "!node_modules", "!ecosystem.config.cjs"]
-  },
-  "formatter": {
-    "enabled": true,
-    "indentStyle": "space",
-    "indentWidth": 2,
-    "lineWidth": 80,
-    "lineEnding": "lf"
-  },
-  "javascript": {
-    "formatter": {
-      "arrowParentheses": "always",
-      "bracketSameLine": false,
-      "bracketSpacing": true,
-      "jsxQuoteStyle": "double",
-      "quoteProperties": "asNeeded",
-      "semicolons": "always",
-      "trailingCommas": "es5"
-    }
-  },
-  "json": {
-    "formatter": {
-      "trailingCommas": "none"
-    }
+    "includes": ["**", "!ecosystem.config.cjs"]
   },
   "linter": {
-    "enabled": true,
-    "rules": {
-      "recommended": true,
-      "complexity": {
-        "noUselessStringConcat": "warn",
-        "noUselessUndefined": "warn"
-      },
-      "correctness": {
-        "useJsonImportAttributes": "warn"
-      },
-      "performance": {
-        "noBarrelFile": "error",
-        "noAwaitInLoops": "error"
-      },
-      "style": {
-        "noEnum": "error",
-        "noMagicNumbers": "error",
-        "noNestedTernary": "error",
-        "noUnusedTemplateLiteral": "warn",
-        "useConsistentCurlyBraces": "warn",
-        "useNamingConvention": {
-          "level": "warn",
-          "options": {
-            "conventions": [
-              {
-                "selector": {
-                  "kind": "variable"
-                },
-                "formats": ["camelCase", "PascalCase"]
-              },
-              {
-                "selector": {
-                  "kind": "functionParameter"
-                },
-                "formats": ["camelCase"]
-              },
-              {
-                "selector": {
-                  "kind": "function"
-                },
-                "formats": ["camelCase", "PascalCase"]
-              },
-              {
-                "selector": {
-                  "kind": "objectLiteralProperty"
-                },
-                "formats": ["camelCase", "CONSTANT_CASE", "snake_case"]
-              }
-            ]
-          }
-        },
-        "useSelfClosingElements": "warn"
-      },
-      "suspicious": {
-        "noUnknownAtRules": "off",
-        "useAwait": "error"
-      }
-    },
     "domains": {
-      "project": "recommended",
       "test": "recommended"
-    }
-  },
-
-  "assist": {
-    "actions": {
-      "source": {
-        "organizeImports": "on"
-      }
     }
   }
 }

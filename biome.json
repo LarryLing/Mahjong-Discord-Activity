@@ -1,0 +1,125 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.5.7/schema.json",
+  "root": true,
+  "files": {
+    "ignoreUnknown": true
+  },
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "linter": {
+    "rules": {
+      "preset": "recommended",
+      "complexity": {
+        "noUselessReturn": "warn",
+        "noUselessStringConcat": "warn",
+        "useSimplifiedLogicExpression": "warn"
+      },
+      "correctness": {
+        "useJsonImportAttributes": "warn"
+      },
+      "nursery": {
+        "noEmptyObjectKeys": "error"
+      },
+      "performance": {
+        "noBarrelFile": "error"
+      },
+      "style": {
+        "noEnum": "error",
+        "noExportedImports": "warn",
+        "noMagicNumbers": "warn",
+        "noParameterAssign": "error",
+        "noNestedTernary": "error",
+        "noUnusedTemplateLiteral": "warn",
+        "useCollapsedElseIf": "warn",
+        "useCollapsedIf": "warn",
+        "useConsistentArrayType": "warn",
+        "useConsistentCurlyBraces": "warn",
+        "useConsistentObjectDefinitions": {
+          "level": "warn",
+          "options": {
+            "syntax": "shorthand"
+          }
+        },
+        "useNamingConvention": {
+          "level": "warn",
+          "options": {
+            "conventions": [
+              {
+                "selector": {
+                  "kind": "variable"
+                },
+                "formats": ["camelCase", "PascalCase"]
+              },
+              {
+                "selector": {
+                  "kind": "functionParameter"
+                },
+                "formats": ["camelCase"]
+              },
+              {
+                "selector": {
+                  "kind": "function"
+                },
+                "formats": ["camelCase", "PascalCase"]
+              },
+              {
+                "selector": {
+                  "kind": "objectLiteralProperty"
+                },
+                "formats": ["camelCase", "CONSTANT_CASE", "snake_case"]
+              }
+            ]
+          }
+        },
+        "useSelfClosingElements": "warn"
+      },
+      "suspicious": {
+        "useAwait": "error"
+      }
+    },
+    "domains": {
+      "project": "recommended"
+    }
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        "useSortedAttributes": "on",
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              [":NODE:"],
+              ":BLANK_LINE:",
+              [":PACKAGE:", ":PACKAGE_WITH_PROTOCOL:", "!@mahjong/**"],
+              ":BLANK_LINE:",
+              ["@mahjong/**"],
+              ":BLANK_LINE:",
+              [":ALIAS:"],
+              ":BLANK_LINE:",
+              ["react", "react/**", "react-*", "react-*/**"],
+              ":BLANK_LINE:",
+              [":STYLE:"]
+            ]
+          }
+        }
+      }
+    }
+  },
+  "formatter": {
+    "indentStyle": "space"
+  },
+  "javascript": {
+    "formatter": {
+      "trailingCommas": "es5"
+    }
+  },
+  "json": {
+    "parser": {
+      "allowComments": true
+    }
+  }
+}

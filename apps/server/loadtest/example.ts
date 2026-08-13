@@ -1,5 +1,5 @@
 import { cli, type Options } from "@colyseus/loadtest";
-import { Client, CloseCode, type Room } from "@colyseus/sdk";
+import { Client, type Room } from "@colyseus/sdk";
 
 export async function main(options: Options) {
   const client = new Client(options.endpoint);

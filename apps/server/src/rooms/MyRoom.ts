@@ -1,4 +1,5 @@
 import { type Client, type CloseCode, Room } from "colyseus";
+
 import { MyRoomState } from "./schema/MyRoomState.js";
 
 export class MyRoom extends Room {

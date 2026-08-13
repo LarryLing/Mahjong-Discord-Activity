@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "@mahjong/server",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -30,7 +30,7 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.2",
+    "@biomejs/biome": "2.5.7",
     "@colyseus/loadtest": "^0.17.8",
     "@colyseus/sdk": "^0.17.43",
     "@colyseus/testing": "^0.17.11",

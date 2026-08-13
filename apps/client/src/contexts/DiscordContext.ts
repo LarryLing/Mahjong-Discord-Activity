@@ -1,5 +1,6 @@
 import type { DiscordSDK } from "@discord/embedded-app-sdk";
 import { createContext, type RefObject } from "react";
+
 import type { User } from "@/types/discord";
 
 export type DiscordContextType = {

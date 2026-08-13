@@ -5,6 +5,7 @@ import {
   Outlet,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+
 import type useDiscord from "@/hooks/useDiscord";
 
 type RouterContext = {
@@ -17,11 +18,11 @@ const RootComponent = () => {
     <>
       <div className="p-2 flex gap-2 text-lg">
         <Link
-          to="/"
+          activeOptions={{ exact: true }}
           activeProps={{
             className: "font-bold",
           }}
-          activeOptions={{ exact: true }}
+          to="/"
         >
           Home
         </Link>{" "}

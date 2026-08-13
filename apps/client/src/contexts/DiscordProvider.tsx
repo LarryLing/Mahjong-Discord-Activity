@@ -1,7 +1,9 @@
 import { DiscordSDK } from "@discord/embedded-app-sdk";
 import { type ReactNode, useEffect, useRef, useState } from "react";
+
 import { env } from "@/env";
 import type { User } from "@/types/discord";
+
 import DiscordContext, { type DiscordContextType } from "./DiscordContext";
 
 type DiscordProviderProps = {
