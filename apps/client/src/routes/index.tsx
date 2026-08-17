@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import useDiscord from "@/hooks/useDiscord";
+import useAuth from "@/hooks/useAuth";
 
 const HomeComponent = () => {
-  const { user, isAuthenticated, isLoading, error } = useDiscord();
+  const { user, isAuthenticated, isLoading, error } = useAuth();
 
   return (
     <div className="p-2">

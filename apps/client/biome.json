@@ -22,7 +22,8 @@
         "noAwaitInLoops": "error"
       },
       "style": {
-        "useFragmentSyntax": "warn"
+        "useFragmentSyntax": "warn",
+        "noEnum": "error"
       },
       "suspicious": {
         "noAlert": "warn",

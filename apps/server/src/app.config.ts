@@ -1,5 +1,4 @@
 import {
-  createEndpoint,
   createRouter,
   defineRoom,
   defineServer,
@@ -7,16 +6,11 @@ import {
   playground,
 } from "colyseus";
 
+import { getDiscordToken } from "./controllers/discord.js";
 import { env } from "./env.js";
-/**
- * Import your Room files
- */
 import { MyRoom } from "./rooms/MyRoom.js";
 
 const server = defineServer({
-  /**
-   * Define your room handlers:
-   */
   rooms: {
     my_room: defineRoom(MyRoom),
   },
@@ -29,9 +23,7 @@ const server = defineServer({
    *
    */
   routes: createRouter({
-    api_hello: createEndpoint("/api/hello", { method: "GET" }, async (_ctx) => {
-      return { message: "Hello World" };
-    }),
+    getDiscordToken,
   }),
 
   /**

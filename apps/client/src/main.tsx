@@ -1,22 +1,28 @@
 import { Client } from "@colyseus/sdk";
+import { DiscordSDK } from "@discord/embedded-app-sdk";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import ReactDom from "react-dom/client";
 
-import DiscordProvider from "@/contexts/DiscordProvider";
-import useDiscord from "@/hooks/useDiscord";
+import { env } from "@/env";
+import AuthProvider from "@/contexts/AuthProvider";
+import useAuth from "@/hooks/useAuth";
 import { routeTree } from "@/routeTree.gen";
 import "./index.css";
 
 const colyseusClient = new Client("ws://localhost:3000");
+
+const discordSdk = new DiscordSDK(env.VITE_DISCORD_CLIENT_ID);
+await discordSdk.ready();
 
 const router = createRouter({
   routeTree,
   defaultPreload: "intent",
   scrollRestoration: true,
   context: {
-    discord: undefined!,
+    auth: undefined!,
     colyseusClient,
+    discordSdk,
   },
 });
 
@@ -27,15 +33,20 @@ declare module "@tanstack/react-router" {
 }
 
 const InnerApp = () => {
-  const discord = useDiscord();
-  return <RouterProvider context={{ discord }} router={router} />;
+  const auth = useAuth();
+  return (
+    <RouterProvider
+      context={{ auth, colyseusClient, discordSdk }}
+      router={router}
+    />
+  );
 };
 
 const App = () => {
   return (
-    <DiscordProvider>
+    <AuthProvider colyseusClient={colyseusClient} discordSdk={discordSdk}>
       <InnerApp />
-    </DiscordProvider>
+    </AuthProvider>
   );
 };
 
@@ -46,6 +57,6 @@ if (!rootElement.innerHTML) {
   root.render(
     <StrictMode>
       <App />
-    </StrictMode>
+    </StrictMode>,
   );
 }

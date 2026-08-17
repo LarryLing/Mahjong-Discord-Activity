@@ -1,4 +1,5 @@
 import type { Client } from "@colyseus/sdk";
+import type { DiscordSDK } from "@discord/embedded-app-sdk";
 import {
   createRootRouteWithContext,
   Link,
@@ -6,11 +7,12 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
-import type useDiscord from "@/hooks/useDiscord";
+import type useAuth from "@/hooks/useAuth";
 
 type RouterContext = {
-  discord: ReturnType<typeof useDiscord>;
+  auth: ReturnType<typeof useAuth>;
   colyseusClient: Client;
+  discordSdk: DiscordSDK;
 };
 
 const RootComponent = () => {

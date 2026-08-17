@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/colyseus/create-colyseus#readme",
   "dependencies": {
+    "@colyseus/auth": "^0.17.9",
     "@colyseus/schema": "^4.0.30",
     "@colyseus/tools": "^0.17.20",
     "@t3-oss/env-core": "^0.13.11",
