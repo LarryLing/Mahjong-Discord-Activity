@@ -1,9 +1,10 @@
 import type { Client } from "@colyseus/sdk";
 import type { DiscordSDK } from "@discord/embedded-app-sdk";
-import { type ReactNode, useEffect, useState } from "react";
+import { type ReactNode, useEffect, useState, useRef } from "react";
 
 import { env } from "@/env";
 import type { User } from "@/types/auth";
+import { getFullApiRoute } from "@/lib/api";
 
 import AuthContext, { type AuthContextType } from "./AuthContext";
 
@@ -23,7 +24,15 @@ const AuthProvider = ({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const hasInitialized = useRef<boolean>(false);
+
   useEffect(() => {
+    if (hasInitialized.current) {
+      return;
+    }
+
+    hasInitialized.current = true;
+
     const initialize = async () => {
       setIsLoading(true);
 
@@ -36,20 +45,20 @@ const AuthProvider = ({
           scope: ["identify", "guilds", "applications.commands"],
         });
 
-        const {
-          data: { access_token, user_token, user },
-        } = await colyseusClient.http.post("/discord/token", {
-          headers: {
-            accept: "application/json",
-          },
+        const response = await fetch(getFullApiRoute("/discord/token"), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             code,
           }),
         });
 
-        if (!(access_token && user_token)) {
-          throw new Error("Failed to retrieve tokens");
+        if (!response.ok) {
+          const { message } = await response.json();
+          throw new Error(message);
         }
+
+        const { access_token, user_token, user } = await response.json();
 
         await discordSdk.commands.authenticate({
           access_token,
@@ -64,7 +73,6 @@ const AuthProvider = ({
           e instanceof Error ? e.message : "An unknown error occurred";
         setError(errorMessage);
         setIsAuthenticated(false);
-        console.error("Failed to initialize Discord SDK", e);
       } finally {
         setIsLoading(false);
       }

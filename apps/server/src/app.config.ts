@@ -1,39 +1,15 @@
-import {
-  createRouter,
-  defineRoom,
-  defineServer,
-  monitor,
-  playground,
-} from "colyseus";
+import { defineRoom, defineServer, monitor, playground } from "colyseus";
 
-import { getDiscordToken } from "./controllers/discord.js";
 import { env } from "./env.js";
 import { MyRoom } from "./rooms/MyRoom.js";
+import discordRoutes from "./routes/discordRoutes.js";
 
 const server = defineServer({
   rooms: {
     my_room: defineRoom(MyRoom),
   },
-
-  /**
-   * Experimental: Define API routes. Built-in integration with the "playground" and SDK.
-   *
-   * Usage from SDK:
-   *   client.http.get("/api/hello").then((response) => {})
-   *
-   */
-  routes: createRouter({
-    getDiscordToken,
-  }),
-
-  /**
-   * Bind your custom express routes here:
-   * Read more: https://expressjs.com/en/starter/basic-routing.html
-   */
   express: (app) => {
-    app.get("/hi", (_req, res) => {
-      res.send("It's time to kick ass and chew bubblegum!");
-    });
+    app.use("/discord", discordRoutes);
 
     /**
      * Use @colyseus/monitor
