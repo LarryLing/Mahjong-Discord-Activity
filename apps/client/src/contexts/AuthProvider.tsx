@@ -1,9 +1,9 @@
 import type { Client } from "@colyseus/sdk";
 import type { DiscordSDK } from "@discord/embedded-app-sdk";
 import { type ReactNode, useEffect, useState, useRef } from "react";
+import type { UserType } from "@shared/types";
 
 import { env } from "@/env";
-import type { User } from "@/types/auth";
 import { getFullApiRoute } from "@/lib/api";
 
 import AuthContext, { type AuthContextType } from "./AuthContext";
@@ -19,7 +19,7 @@ const AuthProvider = ({
   discordSdk,
   children,
 }: AuthProviderProps) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserType | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

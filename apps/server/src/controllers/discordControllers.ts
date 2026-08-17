@@ -1,14 +1,12 @@
-import { z } from "zod";
+import { getDiscordTokenRequestSchema } from "@shared/types/index.js";
 import { Request, Response } from "express";
 
 import HttpCodes from "../constants/http.js";
 import { tryCatch } from "../lib/result.js";
 import { getDiscordTokenService } from "../services/discordServices.js";
 
-const bodySchema = z.object({ code: z.string() });
-
 const getDiscordToken = async (req: Request, res: Response) => {
-  const parsed = bodySchema.safeParse(req.body);
+  const parsed = getDiscordTokenRequestSchema.safeParse(req.body);
 
   if (!parsed.success) {
     return res
