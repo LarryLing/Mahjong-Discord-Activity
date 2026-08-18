@@ -1,6 +1,8 @@
 {
-  "extends": "../../tsconfig.json",
-  "include": ["src/**/*"],
+  "extends": "@mahjong/ts-config/base.json",
+  "include": [
+    "src/**/*"
+  ],
   "compilerOptions": {
     /* Modules */
     "module": "nodenext",
@@ -10,11 +12,5 @@
     "declaration": true,
     "declarationMap": true,
     "outDir": "./dist",
-    /* Language and Environment */
-    "lib": ["ES2023"],
-    /* Projects */
-    "composite": true,
-    "target": "es2023",
-    "types": []
   }
 }

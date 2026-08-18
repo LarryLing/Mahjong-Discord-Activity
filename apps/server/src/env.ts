@@ -1,7 +1,7 @@
 import { createEnv } from "@t3-oss/env-core";
 import * as z from "zod";
 
-const DefaultPort = 3000 as const;
+const DefaultPort = 2567 as const;
 
 export const env = createEnv({
   server: {

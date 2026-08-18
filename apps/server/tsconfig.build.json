@@ -1,14 +1,10 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["src"],
+  "include": [
+    "src"
+  ],
   "compilerOptions": {
-    /* Modules */
-    "paths": {
-      "@shared/*": ["../../packages/shared/dist/*"]
-    },
-    "rootDir": "./src",
-    /* Emit */
     "noEmit": false,
-    "outDir": "build"
+    "rootDir": "./src"
   }
 }

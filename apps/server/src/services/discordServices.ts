@@ -1,6 +1,6 @@
 import { JWT } from "@colyseus/auth";
-import type { GetDiscordTokenResponse } from "@shared/api-contracts/index.js";
-import type { User } from "@shared/types/index.js";
+import type { GetDiscordTokenResponseData } from "@mahjong/shared/api-contracts";
+import type { User } from "@mahjong/shared/types";
 
 import { env } from "../env.js";
 import { err, ok } from "../lib/result.js";
@@ -17,7 +17,7 @@ const getDiscordTokenService = async (code: string) => {
         grant_type: "authorization_code",
         code,
       }),
-    }
+    },
   );
 
   if (!accessTokenResponse.ok) {
@@ -55,7 +55,7 @@ const getDiscordTokenService = async (code: string) => {
     access_token,
     user_token: userToken,
     user,
-  } as GetDiscordTokenResponse);
+  } as GetDiscordTokenResponseData);
 };
 
 export { getDiscordTokenService };

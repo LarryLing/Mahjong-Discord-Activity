@@ -1,11 +1,17 @@
 {
-  "compilerOptions": {
-    /* Modules */
-    "resolveJsonModule": true,
-    /* Interop Constraints */
-    "esModuleInterop": true,
-    "isolatedModules": true,
-    /* Completeness */
-    "skipLibCheck": true
-  }
+  "files": [],
+  "references": [
+    {
+      "path": "./apps/client"
+    },
+    {
+      "path": "./apps/server"
+    },
+    {
+      "path": "./packages/ts-config"
+    },
+    {
+      "path": "./packages/shared"
+    },
+  ]
 }

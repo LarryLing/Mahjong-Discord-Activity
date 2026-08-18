@@ -2,7 +2,7 @@ import type { z } from "zod";
 
 import {
   getDiscordTokenRequestBodySchema,
-  getDiscordTokenResponseSchema,
+  getDiscordTokenResponseDataSchema,
 } from "./getDiscordToken.js";
 
 type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
@@ -10,24 +10,29 @@ type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 type RouteContract = {
   method: HttpMethod;
   requestBodySchema: z.ZodTypeAny;
-  responseSchema: z.ZodTypeAny;
-  headers: Record<string, string>;
-  requiresAuth: boolean;
+  responseDataSchema: z.ZodTypeAny;
 };
 
 const apiContract = {
   "/discord/token": {
     method: "POST",
     requestBodySchema: getDiscordTokenRequestBodySchema,
-    responseSchema: getDiscordTokenResponseSchema,
-    headers: {
-      "Content-Type": "application/json",
-    },
-    requiresAuth: false,
+    responseDataSchema: getDiscordTokenResponseDataSchema,
   },
 } as const satisfies Record<string, RouteContract>;
+
+type ApiResponse<T> = {
+  message: string;
+  data: T;
+};
 
 type ApiContract = typeof apiContract;
 type ApiRoute = keyof ApiContract;
 
-export { type ApiContract, type ApiRoute, apiContract, type RouteContract };
+export {
+  type ApiResponse,
+  type ApiContract,
+  type ApiRoute,
+  apiContract,
+  type RouteContract,
+};

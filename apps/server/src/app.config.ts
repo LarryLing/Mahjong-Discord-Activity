@@ -1,16 +1,23 @@
-import { defineRoom, defineServer, monitor, playground } from "colyseus";
+import {
+  defineRoom,
+  defineServer,
+  createRouter,
+  monitor,
+  playground,
+} from "colyseus";
 
 import { env } from "./env.js";
 import { MyRoom } from "./rooms/MyRoom.js";
-import discordRoutes from "./routes/discordRoutes.js";
+import { getDiscordToken } from "./controllers/discordControllers.js";
 
 const server = defineServer({
   rooms: {
     my_room: defineRoom(MyRoom),
   },
+  routes: createRouter({
+    getDiscordToken,
+  }),
   express: (app) => {
-    app.use("/discord", discordRoutes);
-
     /**
      * Use @colyseus/monitor
      * It is recommended to protect this route with a password
@@ -29,3 +36,5 @@ const server = defineServer({
 });
 
 export default server;
+
+export type Config = typeof server;

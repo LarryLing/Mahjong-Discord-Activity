@@ -1,5 +1,4 @@
 {
-  "extends": "../../tsconfig.json",
   "files": [],
   "references": [
     {
@@ -8,16 +7,5 @@
     {
       "path": "./tsconfig.node.json"
     },
-    {
-      "path": "../../packages/shared"
-    }
   ],
-  "compilerOptions": {
-    /* Modules */
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"],
-      "@shared/*": ["../../packages/shared/src/*"]
-    }
-  }
 }

@@ -10,17 +10,19 @@ type GetDiscordTokenRequestBody = z.infer<
   typeof getDiscordTokenRequestBodySchema
 >;
 
-const getDiscordTokenResponseSchema = z.object({
+const getDiscordTokenResponseDataSchema = z.object({
   access_token: z.string().min(1),
   user_token: z.string().min(1),
   user: userSchema,
 });
 
-type GetDiscordTokenResponse = z.infer<typeof getDiscordTokenResponseSchema>;
+type GetDiscordTokenResponseData = z.infer<
+  typeof getDiscordTokenResponseDataSchema
+>;
 
 export {
   type GetDiscordTokenRequestBody,
-  type GetDiscordTokenResponse,
+  type GetDiscordTokenResponseData,
   getDiscordTokenRequestBodySchema,
-  getDiscordTokenResponseSchema,
+  getDiscordTokenResponseDataSchema,
 };

@@ -5,13 +5,13 @@ const ok = <S>(data: S): Result<never, S> => {
 };
 
 const err = <const R extends string, E extends { reason: R }>(
-  error: E
+  error: E,
 ): Result<E, never> => {
   return [error, null];
 };
 
 const tryCatch = async <R extends Result<{ reason: string }, unknown>>(
-  promise: Promise<R>
+  promise: Promise<R>,
 ): Promise<R | Result<{ reason: "UnexpectedError" }, never>> => {
   try {
     return await promise;

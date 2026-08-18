@@ -1,7 +1,7 @@
 import type { Client } from "@colyseus/sdk";
 import type { DiscordSDK } from "@discord/embedded-app-sdk";
-import type { GetDiscordTokenRequestBody } from "@shared/api-contracts";
-import type { User } from "@shared/types";
+import type { GetDiscordTokenRequestBody } from "@mahjong/shared/api-contracts";
+import type { User } from "@mahjong/shared/types";
 import { type ReactNode, useEffect, useRef, useState } from "react";
 
 import { env } from "@/env";
@@ -49,8 +49,9 @@ const AuthProvider = ({
         const requestBody = { code } as GetDiscordTokenRequestBody;
 
         const { access_token, user_token, user } = await apiFetch(
+          colyseusClient,
           "/discord/token",
-          requestBody
+          requestBody,
         );
 
         await discordSdk.commands.authenticate({

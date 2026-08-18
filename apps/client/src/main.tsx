@@ -3,6 +3,7 @@ import { DiscordSDK } from "@discord/embedded-app-sdk";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import ReactDom from "react-dom/client";
+import type { Config } from "../../server/src/app.config";
 
 import { env } from "@/env";
 import AuthProvider from "@/contexts/AuthProvider";
@@ -10,7 +11,7 @@ import useAuth from "@/hooks/useAuth";
 import { routeTree } from "@/routeTree.gen";
 import "./index.css";
 
-const colyseusClient = new Client("ws://localhost:3000");
+const colyseusClient = new Client<Config>("ws://localhost:3000");
 
 const discordSdk = new DiscordSDK(env.VITE_DISCORD_CLIENT_ID);
 await discordSdk.ready();

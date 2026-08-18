@@ -1,59 +1,62 @@
-import { getDiscordTokenRequestBodySchema } from "@shared/api-contracts/index.js";
-import type { Request, Response } from "express";
+import { getDiscordTokenRequestBodySchema } from "@mahjong/shared/api-contracts";
+import { createEndpoint } from "colyseus";
 
 import HttpCodes from "../constants/http.js";
 import { tryCatch } from "../lib/result.js";
 import { getDiscordTokenService } from "../services/discordServices.js";
 
-const getDiscordToken = async (req: Request, res: Response) => {
-  const parsed = getDiscordTokenRequestBodySchema.safeParse(req.body);
+const getDiscordToken = createEndpoint(
+  "/discord/token",
+  {
+    method: "POST",
+    body: getDiscordTokenRequestBodySchema,
+  },
+  async (ctx) => {
+    const { code } = ctx.body;
 
-  if (!parsed.success) {
-    return res
-      .status(HttpCodes.BAD_REQUEST)
-      .json({ message: "Invalid request body" });
-  }
+    const [error, result] = await tryCatch(getDiscordTokenService(code));
 
-  const { code } = parsed.data;
+    if (error == null) {
+      ctx.setStatus(HttpCodes.OK);
+      return ctx.json({
+        message: "Successfully retrieved tokens",
+        data: result,
+      });
+    }
 
-  const [error, result] = await tryCatch(getDiscordTokenService(code));
+    const { reason } = error;
 
-  if (error == null) {
-    return res.status(HttpCodes.OK).json(result);
-  }
-
-  const { reason } = error;
-
-  switch (reason) {
-    case "AccessTokenHTTPError": {
-      return res
-        .status(HttpCodes.BAD_REQUEST)
-        .json({ message: "Invalid or expired authorization code" });
+    switch (reason) {
+      case "AccessTokenHTTPError": {
+        return ctx.error(HttpCodes.BAD_REQUEST, {
+          message: "Invalid or expired authorization code",
+        });
+      }
+      case "ParseAccessTokenResponseError": {
+        return ctx.error(HttpCodes.BAD_GATEWAY, {
+          message: "Unexpected response from Discord",
+        });
+      }
+      case "UserHTTPError": {
+        return ctx.error(HttpCodes.BAD_GATEWAY, {
+          message: "Failed to fetch Discord user",
+        });
+      }
+      case "ParseUserResponseError": {
+        return ctx.error(HttpCodes.BAD_GATEWAY, {
+          message: "Unexpected response from Discord",
+        });
+      }
+      case "UnexpectedError": {
+        return ctx.error(HttpCodes.INTERNAL_SERVER_ERROR, {
+          message: "Something went wrong",
+        });
+      }
+      default: {
+        throw new Error(`Unhandled error: ${reason satisfies never}`);
+      }
     }
-    case "ParseAccessTokenResponseError": {
-      return res
-        .status(HttpCodes.BAD_GATEWAY)
-        .json({ message: "Unexpected response from Discord" });
-    }
-    case "UserHTTPError": {
-      return res
-        .status(HttpCodes.BAD_GATEWAY)
-        .json({ message: "Failed to fetch Discord user" });
-    }
-    case "ParseUserResponseError": {
-      return res
-        .status(HttpCodes.BAD_GATEWAY)
-        .json({ message: "Unexpected response from Discord" });
-    }
-    case "UnexpectedError": {
-      return res
-        .status(HttpCodes.INTERNAL_SERVER_ERROR)
-        .json({ message: "Something went wrong" });
-    }
-    default: {
-      throw new Error(`Unhandled error: ${reason satisfies never}`);
-    }
-  }
-};
+  },
+);
 
 export { getDiscordToken };

@@ -1,4 +1,4 @@
-import type { User } from "@shared/types";
+import type { User } from "@mahjong/shared/types";
 import { createContext } from "react";
 
 export type AuthContextType = {

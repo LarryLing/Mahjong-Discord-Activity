@@ -1,10 +1,8 @@
 {
-  "extends": "../../tsconfig.json",
-  "include": ["src", "test"],
-  "references": [
-    {
-      "path": "../../packages/shared"
-    }
+  "extends": "@mahjong/ts-config/base.json",
+  "include": [
+    "src",
+    "test"
   ],
   "compilerOptions": {
     /* Type Checking */
@@ -12,20 +10,23 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     /* Modules */
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
-    "paths": {
-      "@shared/*": ["../../packages/shared/src/*"]
-    },
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     /* Emit */
-    "noEmit": true,
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
+    "outDir": "build",
+    "noEmit": false,
     /* Javascript Support */
     "allowJs": true,
     /* Interop Constraints */
     "esModuleInterop": true,
     /* Language and Environment */
     "experimentalDecorators": true,
-    "target": "es2023",
-    "useDefineForClassFields": false
+    "target": "ESNext",
+    "useDefineForClassFields": false,
+    /* Projects */
+    "composite": true,
   }
 }
