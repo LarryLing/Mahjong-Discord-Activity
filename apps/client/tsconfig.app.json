@@ -3,11 +3,6 @@
   "include": [
     "src"
   ],
-  "references": [
-    {
-      "path": "../server"
-    }
-  ],
   "compilerOptions": {
     /* Type Checking */
     "noUnusedLocals": true,
@@ -29,6 +24,7 @@
     "erasableSyntaxOnly": true,
     "verbatimModuleSyntax": true,
     /* Language and Environment */
+    "experimentalDecorators": true,
     "jsx": "react-jsx",
     "lib": [
       "ES2023",

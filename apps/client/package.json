@@ -8,7 +8,7 @@
     "tunnel:token": "dotenv -e .env.development -- cross-var echo %CLOUDFLARED_TUNNEL_TOKEN%",
     "dev": "vite",
     "dev:tunnel": "concurrently \"vite\" \"pnpm tunnel\"",
-    "build": "pnpm --filter @mahjong/shared run build && tsc -b ../server && tsc -b && vite build",
+    "build": "pnpm --filter @mahjong/shared run build && tsc -b && vite build",
     "preview": "vite preview",
     "preview:tunnel": "concurrently \"vite preview\" \"pnpm tunnel\"",
     "lint": "biome check",

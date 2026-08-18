@@ -13,11 +13,7 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     /* Emit */
-    "declaration": true,
-    "declarationMap": true,
-    "emitDeclarationOnly": true,
     "outDir": "build",
-    "noEmit": false,
     /* Javascript Support */
     "allowJs": true,
     /* Interop Constraints */
@@ -26,7 +22,5 @@
     "experimentalDecorators": true,
     "target": "ESNext",
     "useDefineForClassFields": false,
-    /* Projects */
-    "composite": true,
   }
 }
