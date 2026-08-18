@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "tunnel": "cloudflared tunnel --url http://localhost:5173",
+    "tunnel": "dotenv -e .env.development -- cross-var cloudflared tunnel run --token %CLOUDFLARED_TUNNEL_TOKEN%",
+    "tunnel:token": "dotenv -e .env.development -- cross-var echo %CLOUDFLARED_TUNNEL_TOKEN%",
     "dev": "vite",
     "dev:tunnel": "concurrently \"vite\" \"pnpm tunnel\"",
     "build": "pnpm --filter @mahjong/shared run build && tsc -b && vite build",
@@ -47,6 +48,8 @@
     "@vitejs/plugin-react": "^6.0.5",
     "babel-plugin-react-compiler": "^1.0.0",
     "concurrently": "^10.0.4",
+    "cross-var": "^1.1.0",
+    "dotenv-cli": "^11.0.0",
     "globals": "^17.9.0",
     "typescript": "~7.0.2",
     "vite": "^8.2.1"

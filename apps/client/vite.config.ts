@@ -15,7 +15,7 @@ export default defineConfig({
     babel({ presets: [reactCompilerPreset()] }),
   ],
   server: {
-    allowedHosts: [".trycloudflare.com"],
+    allowedHosts: [".larryling.xyz"],
   },
   resolve: {
     alias: {

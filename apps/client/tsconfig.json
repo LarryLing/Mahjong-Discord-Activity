@@ -13,6 +13,7 @@
     }
   ],
   "compilerOptions": {
+    /* Modules */
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],

@@ -1,16 +1,20 @@
 {
   "extends": "../../tsconfig.json",
+  "include": ["src/**/*"],
   "compilerOptions": {
-    "composite": true,
-    "declaration": true,
-    "declarationMap": true,
+    /* Modules */
     "module": "nodenext",
     "moduleResolution": "nodenext",
-    "target": "es2023",
-    "lib": ["ES2023"],
-    "types": [],
+    "rootDir": "./src",
+    /* Emit */
+    "declaration": true,
+    "declarationMap": true,
     "outDir": "./dist",
-    "rootDir": "./src"
-  },
-  "include": ["src/**/*"]
+    /* Language and Environment */
+    "lib": ["ES2023"],
+    /* Projects */
+    "composite": true,
+    "target": "es2023",
+    "types": []
+  }
 }

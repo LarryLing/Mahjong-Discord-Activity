@@ -12,13 +12,13 @@ type ApiFetchOptions = {
 };
 
 const getFullApiRoute = (apiRoute: ApiRoute) => {
-  return `${env.COLYSEUS_CLIENT_URL}${apiRoute}`;
+  return `${env.VITE_COLYSEUS_CLIENT_URL}${apiRoute}`;
 };
 
 const apiFetch = async <R extends ApiRoute>(
   route: R,
   body: z.infer<ApiContract[R]["requestBodySchema"]>,
-  options?: ApiFetchOptions,
+  options?: ApiFetchOptions
 ): Promise<z.infer<ApiContract[R]["responseSchema"]>> => {
   const contract = apiContract[route];
   const {
@@ -32,7 +32,7 @@ const apiFetch = async <R extends ApiRoute>(
   const parsedRequestBody = requestBodySchema.safeParse(body);
   if (!parsedRequestBody.success) {
     throw new Error(
-      `Invalid request for ${route}: ${parsedRequestBody.error.message}`,
+      `Invalid request for ${route}: ${parsedRequestBody.error.message}`
     );
   }
 
@@ -65,7 +65,7 @@ const apiFetch = async <R extends ApiRoute>(
 
   if (!responseParsed.success) {
     throw new Error(
-      `Malformed response from ${route}: ${responseParsed.error.message}`,
+      `Malformed response from ${route}: ${responseParsed.error.message}`
     );
   }
 
