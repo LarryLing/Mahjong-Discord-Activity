@@ -1,12 +1,12 @@
-import { getDiscordTokenRequestSchema } from "@shared/types/index.js";
-import { Request, Response } from "express";
+import { getDiscordTokenRequestBodySchema } from "@shared/api-contracts/index.js";
+import type { Request, Response } from "express";
 
 import HttpCodes from "../constants/http.js";
 import { tryCatch } from "../lib/result.js";
 import { getDiscordTokenService } from "../services/discordServices.js";
 
 const getDiscordToken = async (req: Request, res: Response) => {
-  const parsed = getDiscordTokenRequestSchema.safeParse(req.body);
+  const parsed = getDiscordTokenRequestBodySchema.safeParse(req.body);
 
   if (!parsed.success) {
     return res

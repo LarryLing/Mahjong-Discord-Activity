@@ -1,4 +1,4 @@
-const HTTPCodes = {
+const HttpCodes = {
   OK: 200,
   CREATED: 201,
   BAD_REQUEST: 400,
@@ -10,4 +10,4 @@ const HTTPCodes = {
   BAD_GATEWAY: 502,
 } as const;
 
-export default HTTPCodes;
+export default HttpCodes;

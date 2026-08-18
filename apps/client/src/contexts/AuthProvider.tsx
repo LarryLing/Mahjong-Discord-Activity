@@ -1,10 +1,11 @@
 import type { Client } from "@colyseus/sdk";
 import type { DiscordSDK } from "@discord/embedded-app-sdk";
-import { type ReactNode, useEffect, useState, useRef } from "react";
-import type { UserType } from "@shared/types";
+import type { GetDiscordTokenRequestBody } from "@shared/api-contracts";
+import type { User } from "@shared/types";
+import { type ReactNode, useEffect, useRef, useState } from "react";
 
 import { env } from "@/env";
-import { getFullApiRoute } from "@/lib/api";
+import { apiFetch } from "@/lib/apiFetch";
 
 import AuthContext, { type AuthContextType } from "./AuthContext";
 
@@ -19,7 +20,7 @@ const AuthProvider = ({
   discordSdk,
   children,
 }: AuthProviderProps) => {
-  const [user, setUser] = useState<UserType | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -45,20 +46,12 @@ const AuthProvider = ({
           scope: ["identify", "guilds", "applications.commands"],
         });
 
-        const response = await fetch(getFullApiRoute("/discord/token"), {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            code,
-          }),
-        });
+        const requestBody = { code } as GetDiscordTokenRequestBody;
 
-        if (!response.ok) {
-          const { message } = await response.json();
-          throw new Error(message);
-        }
-
-        const { access_token, user_token, user } = await response.json();
+        const { access_token, user_token, user } = await apiFetch(
+          "/discord/token",
+          requestBody
+        );
 
         await discordSdk.commands.authenticate({
           access_token,

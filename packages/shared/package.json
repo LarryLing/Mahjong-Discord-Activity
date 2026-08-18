@@ -7,6 +7,10 @@
     "./types": {
       "types": "./dist/types/index.d.ts",
       "default": "./dist/types/index.js"
+    },
+    "./api-contracts": {
+      "types": "./dist/api-contracts/index.d.ts",
+      "default": "./dist/api-contracts/index.js"
     }
   },
   "main": "./dist/index.js",
