@@ -1,6 +1,5 @@
+import type { User } from "@shared/types";
 import { createContext } from "react";
-
-import type { User } from "@/types/auth";
 
 export type AuthContextType = {
   user: User | null;
