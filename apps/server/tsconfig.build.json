@@ -3,7 +3,10 @@
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "build",
-    "noEmit": false
+    "noEmit": false,
+    "paths": {
+      "@shared/*": ["../../packages/shared/dist/*"]
+    }
   },
   "include": ["src"]
 }

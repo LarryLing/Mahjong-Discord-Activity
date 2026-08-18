@@ -7,7 +7,7 @@
     "tunnel": "cloudflared tunnel --url http://localhost:5173",
     "dev": "vite",
     "dev:tunnel": "concurrently \"vite\" \"pnpm tunnel\"",
-    "build": "tsc -b && vite build",
+    "build": "pnpm --filter @mahjong/shared run build && tsc -b && vite build",
     "preview": "vite preview",
     "preview:tunnel": "concurrently \"vite preview\" \"pnpm tunnel\"",
     "lint": "biome check",
