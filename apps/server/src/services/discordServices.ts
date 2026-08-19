@@ -42,13 +42,13 @@ const getDiscordTokenService = async (code: string) => {
     return err({ reason: "UserHTTPError" as const });
   }
 
-  const { id, username, avatar } = await userResponse.json();
+  const { id, global_name, username, avatar } = await userResponse.json();
 
-  if (!(id && username && avatar)) {
+  if (!(id && username)) {
     return err({ reason: "ParseUserResponseError" as const });
   }
 
-  const user = { id, username, avatar } as User;
+  const user = { id, username: global_name ?? username, avatar } as User;
 
   const userToken = await JWT.sign(user);
 

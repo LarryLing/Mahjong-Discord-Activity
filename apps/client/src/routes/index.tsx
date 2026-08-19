@@ -1,18 +1,23 @@
 import { createFileRoute } from "@tanstack/react-router";
 
+import UserBadge from "@/components/shared/UserBadge";
 import useAuth from "@/hooks/useAuth";
 
 import AuthDialog from "./-components/AuthDialog";
 
 const HomeComponent = () => {
   const useAuthReturn = useAuth();
+  const { user } = useAuthReturn;
 
   return (
     <>
-      <AuthDialog {...useAuthReturn} />
-      <div className="p-2">
-        <h3>Welcome Home!</h3>
+      <div className="w-full h-screen flex justify-center items-center">
+        <div>Image placeholder</div>
+        <div>
+          <UserBadge {...user} />
+        </div>
       </div>
+      <AuthDialog {...useAuthReturn} />
     </>
   );
 };
