@@ -51,7 +51,7 @@
                 "selector": {
                   "kind": "variable"
                 },
-                "formats": ["camelCase", "PascalCase"]
+                "formats": ["camelCase", "PascalCase", "CONSTANT_CASE"]
               },
               {
                 "selector": {

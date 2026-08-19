@@ -10,6 +10,11 @@ import csp from "vite-plugin-csp-guard";
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
+
+  if (!(env.VITE_APP_ENV && env.VITE_COLYSEUS_CLIENT_URL)) {
+    throw new Error("Missing environment variables");
+  }
+
   const isDev = env.VITE_APP_ENV === "development";
 
   return {
@@ -21,7 +26,7 @@ export default defineConfig(({ mode }) => {
         dev: { run: true },
         policy: {
           "default-src": ["'self'"],
-          "connect-src": ["'self'", env.VITE_COLYSEUS_URL],
+          "connect-src": ["'self'", env.VITE_COLYSEUS_CLIENT_URL],
           "script-src": ["'self'", ...(isDev ? ["'unsafe-eval'"] : [])],
           "style-src": ["'self'", "'unsafe-inline'"],
           "img-src": ["'self'", "data:", "blob:"],

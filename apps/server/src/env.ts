@@ -1,12 +1,12 @@
 import { createEnv } from "@t3-oss/env-core";
 import * as z from "zod";
 
-const DefaultPort = 8080 as const;
+const DEFAULT_PORT = 8080 as const;
 
 export const env = createEnv({
   server: {
     NODE_ENV: z.enum(["development", "production"]).default("development"),
-    PORT: z.coerce.number().default(DefaultPort),
+    PORT: z.coerce.number().default(DEFAULT_PORT),
     DISCORD_CLIENT_ID: z.string().min(1),
     DISCORD_CLIENT_SECRET: z.string().min(1),
     JWT_SECRET: z.string().min(1),
