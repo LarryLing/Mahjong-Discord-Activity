@@ -5,10 +5,18 @@ import {
   monitor,
   playground,
 } from "colyseus";
+import cors from "cors";
 
 import { getDiscordToken } from "./controllers/discordControllers.js";
 import { env } from "./env.js";
 import { MyRoom } from "./rooms/MyRoom.js";
+
+const corsConfig = cors({
+  origin: [env.FRONTEND_URL],
+  credentials: true,
+  methods: ["GET", "PUT", "PATCH", "POST", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+});
 
 const server = defineServer({
   rooms: {
@@ -18,6 +26,7 @@ const server = defineServer({
     getDiscordToken,
   }),
   express: (app) => {
+    app.use(corsConfig);
     /**
      * Use @colyseus/monitor
      * It is recommended to protect this route with a password
