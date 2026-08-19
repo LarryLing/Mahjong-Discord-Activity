@@ -1,8 +1,6 @@
 {
-  "extends": "@mahjong/ts-config/base.json",
-  "include": [
-    "src/**/*"
-  ],
+  "extends": "../ts-config/tsconfig.json",
+  "include": ["src/**/*"],
   "compilerOptions": {
     /* Modules */
     "module": "nodenext",
@@ -11,6 +9,6 @@
     /* Emit */
     "declaration": true,
     "declarationMap": true,
-    "outDir": "./dist",
+    "outDir": "./dist"
   }
 }

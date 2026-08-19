@@ -8,13 +8,11 @@
       "types": "./dist/types/index.d.ts",
       "default": "./dist/types/index.js"
     },
-    "./api-contracts": {
-      "types": "./dist/api-contracts/index.d.ts",
-      "default": "./dist/api-contracts/index.js"
+    "./api": {
+      "types": "./dist/api/index.d.ts",
+      "default": "./dist/api/index.js"
     }
   },
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "pnpm run clean && tsc",
     "clean": "rimraf dist",
@@ -26,7 +24,6 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@mahjong/ts-config": "workspace:*",
     "@biomejs/biome": "2.5.7",
     "rimraf": "^6.1.3",
     "typescript": "~7.0.2"

@@ -2,6 +2,8 @@ import * as z from "zod";
 
 import { userSchema } from "../types/user.js";
 
+const GET_DISCORD_TOKEN_ROUTE = "/discord/token" as const;
+
 const getDiscordTokenRequestBodySchema = z.object({
   code: z.string().min(1),
 });
@@ -21,6 +23,7 @@ type GetDiscordTokenResponseData = z.infer<
 >;
 
 export {
+  GET_DISCORD_TOKEN_ROUTE,
   type GetDiscordTokenRequestBody,
   type GetDiscordTokenResponseData,
   getDiscordTokenRequestBodySchema,

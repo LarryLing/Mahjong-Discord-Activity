@@ -1,16 +1,18 @@
 import type { Client } from "@colyseus/sdk";
 import type { DiscordSDK } from "@discord/embedded-app-sdk";
-import type { GetDiscordTokenRequestBody } from "@mahjong/shared/api-contracts";
-import type { User } from "@mahjong/shared/types";
 import { type ReactNode, useEffect, useRef, useState } from "react";
 
-import { env } from "@/env";
-import { apiFetch } from "@/lib/apiFetch";
+import { GET_DISCORD_TOKEN_ROUTE } from "@mahjong/shared/api";
+import type { User } from "@mahjong/shared/types";
 
+import { env } from "@/env";
+import { apiContract } from "@/lib/contracts";
+
+import type { Config } from "../../../server/src/app.config";
 import AuthContext, { type AuthContextType } from "./AuthContext";
 
 type AuthProviderProps = {
-  colyseusClient: Client;
+  colyseusClient: Client<Config>;
   discordSdk: DiscordSDK;
   children: ReactNode;
 };
@@ -46,13 +48,35 @@ const AuthProvider = ({
           scope: ["identify", "guilds", "applications.commands"],
         });
 
-        const requestBody = { code } as GetDiscordTokenRequestBody;
+        const { requestBodySchema, responseDataSchema } =
+          apiContract[GET_DISCORD_TOKEN_ROUTE];
 
-        const { access_token, user_token, user } = await apiFetch(
-          colyseusClient,
-          "/discord/token",
-          requestBody,
+        const parsedRequestBody = requestBodySchema.safeParse({
+          code,
+        });
+
+        if (!parsedRequestBody.success) {
+          throw new Error(
+            `Invalid request for ${GET_DISCORD_TOKEN_ROUTE}: ${parsedRequestBody.error.message}`
+          );
+        }
+
+        const { data } = await colyseusClient.http.post(
+          GET_DISCORD_TOKEN_ROUTE,
+          {
+            body: parsedRequestBody.data,
+          }
         );
+
+        const parsedResponse = responseDataSchema.safeParse(data);
+
+        if (!parsedResponse.success) {
+          throw new Error(
+            `Malformed response from ${GET_DISCORD_TOKEN_ROUTE}: ${parsedResponse.error.message}`
+          );
+        }
+
+        const { access_token, user_token, user } = parsedResponse.data;
 
         await discordSdk.commands.authenticate({
           access_token,

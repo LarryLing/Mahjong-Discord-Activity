@@ -1,9 +1,6 @@
 {
-  "extends": "@mahjong/ts-config/base.json",
-  "include": [
-    "src",
-    "test"
-  ],
+  "extends": "@mahjong/ts-config/tsconfig.json",
+  "include": ["src", "test"],
   "compilerOptions": {
     /* Type Checking */
     "noUnusedLocals": true,
@@ -21,6 +18,6 @@
     /* Language and Environment */
     "experimentalDecorators": true,
     "target": "ESNext",
-    "useDefineForClassFields": false,
+    "useDefineForClassFields": false
   }
 }

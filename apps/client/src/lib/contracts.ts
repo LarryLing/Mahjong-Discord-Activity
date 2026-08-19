@@ -1,9 +1,10 @@
 import type { z } from "zod";
 
 import {
+  GET_DISCORD_TOKEN_ROUTE,
   getDiscordTokenRequestBodySchema,
   getDiscordTokenResponseDataSchema,
-} from "./getDiscordToken.js";
+} from "@mahjong/shared/api";
 
 type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
@@ -14,7 +15,7 @@ type RouteContract = {
 };
 
 const apiContract = {
-  "/discord/token": {
+  [GET_DISCORD_TOKEN_ROUTE]: {
     method: "POST",
     requestBodySchema: getDiscordTokenRequestBodySchema,
     responseDataSchema: getDiscordTokenResponseDataSchema,
@@ -30,8 +31,8 @@ type ApiContract = typeof apiContract;
 type ApiRoute = keyof ApiContract;
 
 export {
-  type ApiResponse,
   type ApiContract,
+  type ApiResponse,
   type ApiRoute,
   apiContract,
   type RouteContract,

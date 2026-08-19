@@ -1,14 +1,14 @@
 import {
+  createRouter,
   defineRoom,
   defineServer,
-  createRouter,
   monitor,
   playground,
 } from "colyseus";
 
+import { getDiscordToken } from "./controllers/discordControllers.js";
 import { env } from "./env.js";
 import { MyRoom } from "./rooms/MyRoom.js";
-import { getDiscordToken } from "./controllers/discordControllers.js";
 
 const server = defineServer({
   rooms: {

@@ -11,7 +11,7 @@ import useAuth from "@/hooks/useAuth";
 import { routeTree } from "@/routeTree.gen";
 import "./index.css";
 
-const colyseusClient = new Client<Config>("ws://localhost:3000");
+const colyseusClient = new Client<Config>(env.VITE_COLYSEUS_CLIENT_URL);
 
 const discordSdk = new DiscordSDK(env.VITE_DISCORD_CLIENT_ID);
 await discordSdk.ready();

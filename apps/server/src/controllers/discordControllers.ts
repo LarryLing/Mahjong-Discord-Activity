@@ -1,12 +1,16 @@
-import { getDiscordTokenRequestBodySchema } from "@mahjong/shared/api-contracts";
 import { createEndpoint } from "colyseus";
+
+import {
+  GET_DISCORD_TOKEN_ROUTE,
+  getDiscordTokenRequestBodySchema,
+} from "@mahjong/shared/api";
 
 import HttpCodes from "../constants/http.js";
 import { tryCatch } from "../lib/result.js";
 import { getDiscordTokenService } from "../services/discordServices.js";
 
 const getDiscordToken = createEndpoint(
-  "/discord/token",
+  GET_DISCORD_TOKEN_ROUTE,
   {
     method: "POST",
     body: getDiscordTokenRequestBodySchema,
@@ -18,10 +22,7 @@ const getDiscordToken = createEndpoint(
 
     if (error == null) {
       ctx.setStatus(HttpCodes.OK);
-      return ctx.json({
-        message: "Successfully retrieved tokens",
-        data: result,
-      });
+      return ctx.json(result);
     }
 
     const { reason } = error;
@@ -56,7 +57,7 @@ const getDiscordToken = createEndpoint(
         throw new Error(`Unhandled error: ${reason satisfies never}`);
       }
     }
-  },
+  }
 );
 
 export { getDiscordToken };
