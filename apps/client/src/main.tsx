@@ -7,7 +7,9 @@ import type { Config } from "../../server/src/app.config";
 
 import { env } from "@/env";
 import AuthProvider from "@/contexts/AuthProvider";
+import ThemeProvider from "@/contexts/ThemeProvider";
 import useAuth from "@/hooks/useAuth";
+import useTheme from "@/hooks/useTheme";
 import { routeTree } from "@/routeTree.gen";
 import "./index.css";
 
@@ -21,6 +23,7 @@ const router = createRouter({
   defaultPreload: "intent",
   scrollRestoration: true,
   context: {
+    theme: { theme: "dark", setTheme: () => null },
     auth: undefined!,
     colyseusClient,
     discordSdk,
@@ -35,9 +38,11 @@ declare module "@tanstack/react-router" {
 
 const InnerApp = () => {
   const auth = useAuth();
+  const theme = useTheme();
+
   return (
     <RouterProvider
-      context={{ auth, colyseusClient, discordSdk }}
+      context={{ theme, auth, colyseusClient, discordSdk }}
       router={router}
     />
   );
@@ -45,9 +50,11 @@ const InnerApp = () => {
 
 const App = () => {
   return (
-    <AuthProvider colyseusClient={colyseusClient} discordSdk={discordSdk}>
-      <InnerApp />
-    </AuthProvider>
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <AuthProvider colyseusClient={colyseusClient} discordSdk={discordSdk}>
+        <InnerApp />
+      </AuthProvider>
+    </ThemeProvider>
   );
 };
 

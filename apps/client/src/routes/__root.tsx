@@ -8,8 +8,10 @@ import {
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
 import type useAuth from "@/hooks/useAuth";
+import type useTheme from "@/hooks/useTheme";
 
 type RouterContext = {
+  theme: ReturnType<typeof useTheme>;
   auth: ReturnType<typeof useAuth>;
   colyseusClient: Client;
   discordSdk: DiscordSDK;
