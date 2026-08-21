@@ -1,4 +1,4 @@
-import type { User } from "@mahjong/shared/types";
+import type { User } from "@mahjong/shared/types/user";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
@@ -11,7 +11,7 @@ const UserBadge = ({ id, username, avatar }: UserBadgeProps) => {
     <div className="flex justify-center items-center gap-2">
       <Avatar className="size-12">
         <AvatarImage alt={username} src={imgSrc} />
-        <AvatarFallback>{username?.slice(0, 2)}</AvatarFallback>
+        <AvatarFallback>{username.slice(0, 2)}</AvatarFallback>
       </Avatar>
       <p className="font-bold">{username}</p>
     </div>

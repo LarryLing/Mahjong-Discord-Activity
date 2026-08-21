@@ -1,8 +1,8 @@
 import * as z from "zod";
 
 const userSchema = z.object({
-  id: z.string().optional(),
-  username: z.string().optional(),
+  id: z.string(),
+  username: z.string(),
   avatar: z.string().optional().nullish(),
 });
 

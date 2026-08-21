@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-import type { User } from "@mahjong/shared/types";
+import type { User } from "@mahjong/shared/types/user";
 
 type AuthContextType = {
   user: User | null;

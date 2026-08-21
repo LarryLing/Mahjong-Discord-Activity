@@ -9,7 +9,7 @@ import cors from "cors";
 
 import { getDiscordToken } from "./controllers/discordControllers.js";
 import { env } from "./env.js";
-import { MyRoom } from "./rooms/MyRoom.js";
+import { WaitingRoom } from "./rooms/waiting-room/WaitingRoom.js";
 
 const corsConfig = cors({
   origin: [env.FRONTEND_URL],
@@ -20,7 +20,7 @@ const corsConfig = cors({
 
 const server = defineServer({
   rooms: {
-    my_room: defineRoom(MyRoom),
+    waiting_room: defineRoom(WaitingRoom),
   },
   routes: createRouter({
     getDiscordToken,

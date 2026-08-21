@@ -3,6 +3,8 @@ import { MapSchema, Schema, type } from "@colyseus/schema";
 import { WaitingRoomPlayer } from "./WaitingRoomPlayer.js";
 
 export class WaitingRoomState extends Schema {
+  @type("string") hostId = "";
+
   @type([WaitingRoomPlayer]) players = new MapSchema<WaitingRoomPlayer>();
 
   @type("number") turnDuration = 30;

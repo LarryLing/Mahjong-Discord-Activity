@@ -8,6 +8,7 @@ import {
 } from "colyseus";
 
 import {
+  type CreateWaitingRoomOptions,
   MESSAGE_NAMES,
   type MinimumHandPointsPayload,
   minimumHandPointsPayloadSchema,
@@ -20,8 +21,7 @@ import { WaitingRoomPlayer } from "./schema/WaitingRoomPlayer.js";
 import { WaitingRoomState } from "./schema/WaitingRoomState.js";
 
 type WaitingRoomMetadata = {
-  guildId: string;
-  instanceId: string;
+  hostUser: User;
 };
 
 type Client = WaitingRoomClient<{
@@ -48,28 +48,39 @@ export class WaitingRoom extends Room<{
       turnDurationPayloadSchema,
       (client: Client, payload: TurnDurationPayload) => {
         const player = this.state.players.get(client.sessionId);
-        if (!player?.isHost) return;
+        if (player?.id !== this.state.hostId) return;
         const { turnDuration } = payload;
         this.state.turnDuration = turnDuration;
-      }
+      },
     ),
     [MESSAGE_NAMES.SET_MINIMUM_HAND_POINTS]: validate(
       minimumHandPointsPayloadSchema,
       (client: Client, payload: MinimumHandPointsPayload) => {
         const player = this.state.players.get(client.sessionId);
-        if (!player?.isHost) return;
+        if (player?.id !== this.state.hostId) return;
         const { minimumHandPoints } = payload;
         this.state.minimumHandPoints = minimumHandPoints;
-      }
+      },
     ),
   } satisfies Record<MessageName, unknown>;
+
+  onCreate(options: CreateWaitingRoomOptions) {
+    const { channelId, hostUser, isPublic } = options;
+    this.roomId = channelId;
+    this.state.hostId = hostUser.id;
+    this.setMetadata({ hostUser });
+
+    if (!isPublic) {
+      this.setPrivate();
+    }
+  }
 
   static async onAuth(token: string, _options: unknown, _context: unknown) {
     const tokenData = await JWT.verify(token);
 
     const user = userSchema.parse(tokenData);
 
-    return user as User;
+    return user;
   }
 
   onJoin(client: Client, _options: unknown, auth: User) {
@@ -78,11 +89,9 @@ export class WaitingRoom extends Room<{
     client.userData = auth;
 
     const player = new WaitingRoomPlayer();
-    player.id = auth?.id;
-    player.username = auth?.username;
-    player.avatar = auth?.avatar;
-    player.isHost = this.state.players.size === 0;
-    player.isConnected = true;
+    player.id = auth.id;
+    player.username = auth.username;
+    player.avatar = auth.avatar;
     player.joinTime = Date.now();
 
     this.state.players.set(client.sessionId, player);
@@ -104,18 +113,21 @@ export class WaitingRoom extends Room<{
       this.unlock();
     }
 
-    if (!leftPlayer.isHost || this.state.players.size === 0) return;
+    if (leftPlayer.id !== this.state.hostId || this.state.players.size === 0)
+      return;
 
     const nextHost = Array.from(this.state.players.values()).reduce<
       WaitingRoomPlayer | undefined
     >(
       (candidate, player) =>
-        !candidate || candidate.joinTime < player.joinTime ? player : candidate,
-      undefined
+        !candidate || candidate.joinTime > player.joinTime ? player : candidate,
+      undefined,
     );
 
-    if (nextHost) {
-      nextHost.isHost = true;
+    if (nextHost?.id) {
+      this.state.hostId = nextHost.id;
+      const { id, username, avatar } = nextHost;
+      this.setMetadata({ hostUser: { id, username, avatar } });
     }
   }
 
