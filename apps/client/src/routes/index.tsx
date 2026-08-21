@@ -17,10 +17,10 @@ const HomeComponent = () => {
           {user != null && <UserBadge {...user} />}
         </div>
         <div className="w-full flex-1 flex justify-center items-center gap-8 px-12">
-          <div className="flex-1 h-full flex justify-center items-center p-4 border-2 border-solid ">
+          <div className="flex-1 h-full flex justify-center items-center p-4">
             Image placeholder
           </div>
-          <div className="flex-1 h-full flex flex-col justify-center items-center gap-4 p-4 border-2 border-solid">
+          <div className="flex-1 h-full flex flex-col justify-center items-center gap-4 p-4">
             <h1 className="text-4xl font-bold">Mahjong.</h1>
             <p className="font-bold">Placeholder text</p>
             <Link to="/">
