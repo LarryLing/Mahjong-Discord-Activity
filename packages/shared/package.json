@@ -4,13 +4,17 @@
   "private": true,
   "type": "module",
   "exports": {
-    "./types": {
-      "types": "./dist/types/index.d.ts",
-      "default": "./dist/types/index.js"
+    "./types/user": {
+      "types": "./dist/types/user.d.ts",
+      "default": "./dist/types/user.js"
     },
-    "./api": {
-      "types": "./dist/api/index.d.ts",
-      "default": "./dist/api/index.js"
+    "./api/getDiscordToken": {
+      "types": "./dist/api/getDiscordToken.d.ts",
+      "default": "./dist/api/getDiscordToken.js"
+    },
+    "./rooms/waitingRoom": {
+      "types": "./dist/rooms/waitingRoom.d.ts",
+      "default": "./dist/rooms/waitingRoom.js"
     }
   },
   "scripts": {

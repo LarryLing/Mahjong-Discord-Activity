@@ -3,7 +3,7 @@ import { createEndpoint } from "colyseus";
 import {
   GET_DISCORD_TOKEN_ROUTE,
   getDiscordTokenRequestBodySchema,
-} from "@mahjong/shared/api";
+} from "@mahjong/shared/api/getDiscordToken";
 
 import HttpCodes from "../constants/http.js";
 import { tryCatch } from "../lib/result.js";
@@ -33,9 +33,9 @@ const getDiscordToken = createEndpoint(
           message: "Invalid or expired authorization code",
         });
       }
-      case "ParseAccessTokenResponseError": {
+      case "InvalidAccessTokenResponse": {
         return ctx.error(HttpCodes.BAD_GATEWAY, {
-          message: "Unexpected response from Discord",
+          message: "Invalid response from Discord",
         });
       }
       case "UserHTTPError": {
@@ -43,9 +43,14 @@ const getDiscordToken = createEndpoint(
           message: "Failed to fetch Discord user",
         });
       }
-      case "ParseUserResponseError": {
+      case "InvalidUserResponse": {
         return ctx.error(HttpCodes.BAD_GATEWAY, {
-          message: "Unexpected response from Discord",
+          message: "Invalid response from Discord",
+        });
+      }
+      case "InvalidResponseData": {
+        return ctx.error(HttpCodes.INTERNAL_SERVER_ERROR, {
+          message: "Invalid response data",
         });
       }
       case "UnexpectedError": {

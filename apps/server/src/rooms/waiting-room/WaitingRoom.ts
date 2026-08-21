@@ -6,9 +6,15 @@ import {
   validate,
   type Client as WaitingRoomClient,
 } from "colyseus";
-import { z } from "zod";
 
-import { type User, userSchema } from "@mahjong/shared/types";
+import {
+  MESSAGE_NAMES,
+  type MinimumHandPointsPayload,
+  minimumHandPointsPayloadSchema,
+  type TurnDurationPayload,
+  turnDurationPayloadSchema,
+} from "@mahjong/shared/rooms/waitingRoom";
+import { type User, userSchema } from "@mahjong/shared/types/user";
 
 import { WaitingRoomPlayer } from "./schema/WaitingRoomPlayer.js";
 import { WaitingRoomState } from "./schema/WaitingRoomState.js";
@@ -22,24 +28,7 @@ type Client = WaitingRoomClient<{
   userData: User;
 }>;
 
-// TODO: Move into shared package
-const MAX_TURN_DURATION = 90 as const;
-const MIN_TURN_DURATION = 5 as const;
-
-const MAX_MINIMUM_HAND_POINTS = 13 as const;
-const MIN_MINIMUM_HAND_POINTS = 5 as const;
-
-const turnDurationSchema = z
-  .number()
-  .min(MIN_TURN_DURATION)
-  .max(MAX_TURN_DURATION);
-type TurnDurationType = z.infer<typeof turnDurationSchema>;
-
-const minimumHandPointsSchema = z
-  .number()
-  .min(MAX_MINIMUM_HAND_POINTS)
-  .max(MIN_MINIMUM_HAND_POINTS);
-type MinimumHandPointsType = z.infer<typeof minimumHandPointsSchema>;
+type MessageName = (typeof MESSAGE_NAMES)[keyof typeof MESSAGE_NAMES];
 
 export class WaitingRoom extends Room<{
   state: WaitingRoomState;
@@ -50,28 +39,30 @@ export class WaitingRoom extends Room<{
   state = new WaitingRoomState();
 
   messages = {
-    ready: (client: Client) => {
+    [MESSAGE_NAMES.READY]: (client: Client) => {
       const player = this.state.players.get(client.sessionId);
       if (!player) return;
       player.isReady = true;
     },
-    "set-turn-duration": validate(
-      turnDurationSchema,
-      (client: Client, turnDuration: TurnDurationType) => {
+    [MESSAGE_NAMES.SET_TURN_DURATION]: validate(
+      turnDurationPayloadSchema,
+      (client: Client, payload: TurnDurationPayload) => {
         const player = this.state.players.get(client.sessionId);
         if (!player?.isHost) return;
+        const { turnDuration } = payload;
         this.state.turnDuration = turnDuration;
       }
     ),
-    "set-minimum-hand-points": validate(
-      minimumHandPointsSchema,
-      (client: Client, minimumHandPoints: MinimumHandPointsType) => {
+    [MESSAGE_NAMES.SET_MINIMUM_HAND_POINTS]: validate(
+      minimumHandPointsPayloadSchema,
+      (client: Client, payload: MinimumHandPointsPayload) => {
         const player = this.state.players.get(client.sessionId);
         if (!player?.isHost) return;
+        const { minimumHandPoints } = payload;
         this.state.minimumHandPoints = minimumHandPoints;
       }
     ),
-  };
+  } satisfies Record<MessageName, unknown>;
 
   static async onAuth(token: string, _options: unknown, _context: unknown) {
     const tokenData = await JWT.verify(token);
@@ -101,28 +92,8 @@ export class WaitingRoom extends Room<{
     }
   }
 
-  onDrop(client: Client, code: number) {
-    console.log(`Client ${client.sessionId} dropped (code: ${code})`);
-
-    this.allowReconnection(client, 30);
-
-    const player = this.state.players.get(client.sessionId);
-    if (player) {
-      player.isConnected = false;
-    }
-  }
-
-  onReconnect(client: Client) {
-    console.log(`Client ${client.sessionId} reconnected!`);
-
-    const player = this.state.players.get(client.sessionId);
-    if (player) {
-      player.isConnected = true;
-    }
-  }
-
   onLeave(client: Client, code: CloseCode) {
-    console.log(`Client ${client.sessionId} left permanently (code: ${code})`);
+    console.log(`Client ${client.sessionId} left (code: ${code})`);
 
     const leftPlayer = this.state.players.get(client.sessionId);
     if (!leftPlayer) return;

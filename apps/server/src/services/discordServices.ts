@@ -1,7 +1,6 @@
 import { JWT } from "@colyseus/auth";
 
-import type { GetDiscordTokenResponseData } from "@mahjong/shared/api";
-import type { User } from "@mahjong/shared/types";
+import { getDiscordTokenResponseDataSchema } from "@mahjong/shared/api/getDiscordToken";
 
 import { env } from "../env.js";
 import { err, ok } from "../lib/result.js";
@@ -28,7 +27,7 @@ const getDiscordTokenService = async (code: string) => {
   const { access_token } = await accessTokenResponse.json();
 
   if (!access_token) {
-    return err({ reason: "ParseAccessTokenResponseError" as const });
+    return err({ reason: "InvalidAccessTokenResponse" as const });
   }
 
   const userResponse = await fetch("https://discord.com/api/users/@me", {
@@ -45,18 +44,24 @@ const getDiscordTokenService = async (code: string) => {
   const { id, global_name, username, avatar } = await userResponse.json();
 
   if (!(id && username)) {
-    return err({ reason: "ParseUserResponseError" as const });
+    return err({ reason: "InvalidUserResponse" as const });
   }
 
-  const user = { id, username: global_name ?? username, avatar } as User;
+  const user = { id, username: global_name ?? username, avatar };
 
   const userToken = await JWT.sign(user);
 
-  return ok({
+  const parsedResponseData = getDiscordTokenResponseDataSchema.safeParse({
     access_token,
     user_token: userToken,
     user,
-  } as GetDiscordTokenResponseData);
+  });
+
+  if (!parsedResponseData.success) {
+    return err({ reason: "InvalidResponseData" as const });
+  }
+
+  return ok(parsedResponseData.data);
 };
 
 export { getDiscordTokenService };

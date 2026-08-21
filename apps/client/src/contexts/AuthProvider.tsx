@@ -2,11 +2,14 @@ import type { Client } from "@colyseus/sdk";
 import type { DiscordSDK } from "@discord/embedded-app-sdk";
 import { type ReactNode, useEffect, useRef, useState } from "react";
 
-import { GET_DISCORD_TOKEN_ROUTE } from "@mahjong/shared/api";
-import type { User } from "@mahjong/shared/types";
+import {
+  GET_DISCORD_TOKEN_ROUTE,
+  getDiscordTokenRequestBodySchema,
+  getDiscordTokenResponseDataSchema,
+} from "@mahjong/shared/api/getDiscordToken";
+import type { User } from "@mahjong/shared/types/user";
 
 import { env } from "@/env";
-import { apiContract } from "@/lib/contracts";
 
 import type { Config } from "../../../server/src/app.config";
 import AuthContext, { type AuthContextType } from "./AuthContext";
@@ -48,10 +51,7 @@ const AuthProvider = ({
           scope: ["identify", "guilds", "applications.commands"],
         });
 
-        const { requestBodySchema, responseDataSchema } =
-          apiContract[GET_DISCORD_TOKEN_ROUTE];
-
-        const parsedRequestBody = requestBodySchema.safeParse({
+        const parsedRequestBody = getDiscordTokenRequestBodySchema.safeParse({
           code,
         });
 
@@ -68,7 +68,8 @@ const AuthProvider = ({
           }
         );
 
-        const parsedResponse = responseDataSchema.safeParse(data);
+        const parsedResponse =
+          getDiscordTokenResponseDataSchema.safeParse(data);
 
         if (!parsedResponse.success) {
           throw new Error(
