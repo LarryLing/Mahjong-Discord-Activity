@@ -32,6 +32,7 @@ const AuthProvider = ({
 
   const hasInitialized = useRef<boolean>(false);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: useEffect callback should only invoke once
   useEffect(() => {
     if (hasInitialized.current) {
       return;

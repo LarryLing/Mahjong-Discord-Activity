@@ -31,6 +31,7 @@ const HomeComponent = () => {
             <Link to="/">
               <Button
                 className="text-lg font-bold w-[200px] h-[60px]"
+                disabled
                 variant="outline"
               >
                 Find Games
@@ -41,7 +42,7 @@ const HomeComponent = () => {
         <div className="w-full flex justify-center items-center gap-4 p-2">
           <a
             className={buttonVariants({ variant: "link", size: "sm" })}
-            href="#"
+            href="/"
             rel="noreferrer"
             target="_blank"
           >
@@ -49,7 +50,7 @@ const HomeComponent = () => {
           </a>
           <a
             className={buttonVariants({ variant: "link", size: "sm" })}
-            href="#"
+            href="/"
             rel="noreferrer"
             target="_blank"
           >
