@@ -12,6 +12,10 @@
       "types": "./dist/api/getDiscordToken.d.ts",
       "default": "./dist/api/getDiscordToken.js"
     },
+    "./api/createWaitingRoom": {
+      "types": "./dist/api/createWaitingRoom.d.ts",
+      "default": "./dist/api/createWaitingRoom.js"
+    },
     "./rooms/waitingRoom": {
       "types": "./dist/rooms/waitingRoom.d.ts",
       "default": "./dist/rooms/waitingRoom.js"

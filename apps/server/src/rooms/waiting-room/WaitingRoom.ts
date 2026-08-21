@@ -21,6 +21,7 @@ import { WaitingRoomPlayer } from "./schema/WaitingRoomPlayer.js";
 import { WaitingRoomState } from "./schema/WaitingRoomState.js";
 
 type WaitingRoomMetadata = {
+  channelId: string;
   hostUser: User;
 };
 
@@ -51,7 +52,7 @@ export class WaitingRoom extends Room<{
         if (player?.id !== this.state.hostId) return;
         const { turnDuration } = payload;
         this.state.turnDuration = turnDuration;
-      },
+      }
     ),
     [MESSAGE_NAMES.SET_MINIMUM_HAND_POINTS]: validate(
       minimumHandPointsPayloadSchema,
@@ -60,7 +61,7 @@ export class WaitingRoom extends Room<{
         if (player?.id !== this.state.hostId) return;
         const { minimumHandPoints } = payload;
         this.state.minimumHandPoints = minimumHandPoints;
-      },
+      }
     ),
   } satisfies Record<MessageName, unknown>;
 
@@ -68,7 +69,7 @@ export class WaitingRoom extends Room<{
     const { channelId, hostUser, isPublic } = options;
     this.roomId = channelId;
     this.state.hostId = hostUser.id;
-    this.setMetadata({ hostUser });
+    this.setMetadata({ channelId, hostUser });
 
     if (!isPublic) {
       this.setPrivate();
@@ -121,7 +122,7 @@ export class WaitingRoom extends Room<{
     >(
       (candidate, player) =>
         !candidate || candidate.joinTime > player.joinTime ? player : candidate,
-      undefined,
+      undefined
     );
 
     if (nextHost?.id) {

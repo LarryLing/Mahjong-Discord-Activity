@@ -8,6 +8,7 @@ import {
 import cors from "cors";
 
 import { getDiscordToken } from "./controllers/discordControllers.js";
+import { createWaitingRoom } from "./controllers/roomControllers.js";
 import { env } from "./env.js";
 import { WaitingRoom } from "./rooms/waiting-room/WaitingRoom.js";
 
@@ -20,10 +21,11 @@ const corsConfig = cors({
 
 const server = defineServer({
   rooms: {
-    waiting_room: defineRoom(WaitingRoom),
+    waiting_room: defineRoom(WaitingRoom).filterBy(["channelId"]),
   },
   routes: createRouter({
     getDiscordToken,
+    createWaitingRoom,
   }),
   express: (app) => {
     app.use(corsConfig);
