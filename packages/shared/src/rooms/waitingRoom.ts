@@ -11,7 +11,6 @@ const MIN_MINIMUM_HAND_POINTS = 5 as const;
 type CreateWaitingRoomOptions = {
   channelId: string;
   hostUser: User;
-  isPublic: boolean;
 };
 
 const turnDurationPayloadSchema = z.object({

@@ -66,14 +66,10 @@ export class WaitingRoom extends Room<{
   } satisfies Record<MessageName, unknown>;
 
   onCreate(options: CreateWaitingRoomOptions) {
-    const { channelId, hostUser, isPublic } = options;
-    this.roomId = channelId;
+    const { channelId, hostUser } = options;
     this.state.hostId = hostUser.id;
     this.setMetadata({ channelId, hostUser });
-
-    if (!isPublic) {
-      this.setPrivate();
-    }
+    this.setPrivate();
   }
 
   static async onAuth(token: string, _options: unknown, _context: unknown) {
@@ -126,8 +122,8 @@ export class WaitingRoom extends Room<{
     );
 
     if (nextHost?.id) {
-      this.state.hostId = nextHost.id;
       const { id, username, avatar } = nextHost;
+      this.state.hostId = id;
       this.setMetadata({ hostUser: { id, username, avatar } });
     }
   }

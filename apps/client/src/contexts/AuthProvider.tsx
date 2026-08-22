@@ -1,5 +1,3 @@
-import type { Client } from "@colyseus/sdk";
-import type { DiscordSDK } from "@discord/embedded-app-sdk";
 import { type ReactNode, useEffect, useRef, useState } from "react";
 
 import {
@@ -10,21 +8,16 @@ import {
 import type { User } from "@mahjong/shared/types/user";
 
 import { env } from "@/env";
+import { colyseusClient } from "@/lib/colyseus";
+import { discordSdk } from "@/lib/discordSdk";
 
-import type { Config } from "../../../server/src/app.config";
 import AuthContext, { type AuthContextType } from "./AuthContext";
 
 type AuthProviderProps = {
-  colyseusClient: Client<Config>;
-  discordSdk: DiscordSDK;
   children: ReactNode;
 };
 
-const AuthProvider = ({
-  colyseusClient,
-  discordSdk,
-  children,
-}: AuthProviderProps) => {
+const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -32,7 +25,6 @@ const AuthProvider = ({
 
   const hasInitialized = useRef<boolean>(false);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: useEffect callback should only invoke once
   useEffect(() => {
     if (hasInitialized.current) {
       return;
@@ -44,6 +36,8 @@ const AuthProvider = ({
       setIsLoading(true);
 
       try {
+        await discordSdk.ready();
+
         const { code } = await discordSdk.commands.authorize({
           client_id: env.VITE_DISCORD_CLIENT_ID,
           response_type: "code",

@@ -5,7 +5,8 @@ import { WaitingRoomPlayer } from "./WaitingRoomPlayer.js";
 export class WaitingRoomState extends Schema {
   @type("string") hostId = "";
 
-  @type([WaitingRoomPlayer]) players = new MapSchema<WaitingRoomPlayer>();
+  @type({ map: WaitingRoomPlayer }) players =
+    new MapSchema<WaitingRoomPlayer>();
 
   @type("number") turnDuration = 30;
   @type("number") minimumHandPoints = 3;

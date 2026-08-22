@@ -3,6 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import UserBadge from "@/components/shared/UserBadge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import useAuth from "@/hooks/useAuth";
+import { discordSdk } from "@/lib/discordSdk";
 
 import AuthDialog from "./-components/AuthDialog";
 
@@ -23,7 +24,10 @@ const HomeComponent = () => {
           <div className="flex-1 h-full flex flex-col justify-center items-center gap-4 p-4">
             <h1 className="text-4xl font-bold">Mahjong.</h1>
             <p className="font-bold">Placeholder text</p>
-            <Link to="/">
+            <Link
+              params={{ roomId: discordSdk.channelId ?? crypto.randomUUID() }}
+              to="/rooms/$roomId"
+            >
               <Button className="text-lg font-bold w-[200px] h-[60px]">
                 Create Game
               </Button>
